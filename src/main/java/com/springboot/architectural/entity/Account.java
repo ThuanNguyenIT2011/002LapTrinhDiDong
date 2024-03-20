@@ -17,12 +17,17 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(unique = true)
     private String username;
     private String password;
 
-    private String fullName;
+    private String lastName;
+    private String firstName;
 
     private boolean enable;
+
+    @Column(length = 255)
+    private String avatar;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
