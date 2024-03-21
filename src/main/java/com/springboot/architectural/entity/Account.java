@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -17,17 +18,12 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(unique = true)
     private String username;
     private String password;
 
-    private String lastName;
-    private String firstName;
+    private String fullName;
 
     private boolean enable;
-
-    @Column(length = 255)
-    private String avatar;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -35,5 +31,11 @@ public class Account {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
+
+    @OneToMany(mappedBy = "account")
+    private Set<Notify> notifies = new HashSet<>();
+
+    @OneToMany(mappedBy = "account")
+    private Set<Item> items = new HashSet<>();
 
 }
