@@ -2,12 +2,8 @@ package com.springboot.architectural.controller;
 
 import com.springboot.architectural.payload.Request.SignUpRequest;
 import com.springboot.architectural.payload.ResponseData;
-import com.springboot.architectural.service.AccountService;
-import com.springboot.architectural.until.UtilsJwtHelper;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import com.springboot.architectural.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,16 +12,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/login")
 public class LoginController {
     @Autowired
-    private AccountService accountService;
+    private LoginService loginService;
 
-    @Autowired
-    private UtilsJwtHelper utilsJwtHelper;// = new UtilsJwtHelper();
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignUpRequest signUpRequest){
         ResponseData responseData = new ResponseData();
 
-        responseData.setData(accountService.addUser(signUpRequest));
+        responseData.setData(loginService.addUser(signUpRequest));
 
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
@@ -35,11 +29,13 @@ public class LoginController {
                                     @RequestParam(name = "password") String password) {
         ResponseData responseData = new ResponseData();
 
-        if(accountService.checkLogin(username, password)) {
+        if(loginService.checkLogin(username, password)) {
             System.out.println("Hello");
-            String token = utilsJwtHelper.generateToken(username);
+//            String token = utilsJwtHelper.generateToken(username);
+            String token = loginService.login(username, password);
             responseData.setData(token);
         } else {
+            System.out.println("Hello2");
             responseData.setData("");
             responseData.setSuccess(false);
         }

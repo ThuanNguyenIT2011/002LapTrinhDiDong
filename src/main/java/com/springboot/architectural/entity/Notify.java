@@ -19,13 +19,10 @@ public class Notify {
 
     private Date createAt;
 
-    @Column(nullable = false, length = 20)
-    private String createBy;
-
     @Column(nullable = false, length = Integer.MAX_VALUE)
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "account_id", nullable = false)
+    @JoinColumn(name = "create_by", nullable = false)
     private Account account;
 }
