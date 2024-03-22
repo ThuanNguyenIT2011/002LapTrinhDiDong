@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -26,10 +27,10 @@ public class Regis {
     private Account account;
     private Date create_at;
     private Integer room_price_VND;
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(
-//            name = "RoomRegis",
-//            joinColumns = @JoinColumn(name = "regis_id"),
-//            inverseJoinColumns = @JoinColumn(name = "room_id"))
-//    private Set<Room> rooms;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "RoomRegis",
+            joinColumns = @JoinColumn(name = "regis_id"),
+            inverseJoinColumns = @JoinColumn(name = "room_id"))
+    private List<Room> rooms;
 }

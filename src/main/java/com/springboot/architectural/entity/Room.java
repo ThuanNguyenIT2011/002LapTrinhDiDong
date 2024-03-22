@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -27,6 +28,7 @@ public class Room {
     private Date create_at;
     private Integer disable;
     private String img;
-
+    @ManyToMany(mappedBy = "rooms")
+    private List<Regis> regises;
 
 }

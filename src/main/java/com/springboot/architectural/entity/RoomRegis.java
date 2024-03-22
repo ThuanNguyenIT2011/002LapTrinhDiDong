@@ -23,4 +23,6 @@ public class RoomRegis  {
     @ManyToOne
     @JoinColumn(name = "regis_id", nullable = false)
     private Regis regis;
+
+
 }

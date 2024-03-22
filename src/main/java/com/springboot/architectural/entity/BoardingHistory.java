@@ -17,9 +17,6 @@ public class BoardingHistory {
     @ManyToOne
     @JoinColumn(name = "student_id")
     private Account account;
-    @ManyToOne()
-    @JoinColumn(name = "room_regis_id")
-    private RoomRegis roomRegis;
     private Boolean disable;
 
 
