@@ -38,4 +38,8 @@ public class Account {
     @OneToMany(mappedBy = "account")
     private Set<Item> items = new HashSet<>();
 
+    @OneToMany(mappedBy = "account")
+    private Set<Regis> regis = new HashSet<>();
+
+
 }
