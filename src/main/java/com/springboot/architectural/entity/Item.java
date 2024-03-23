@@ -23,7 +23,7 @@ public class Item {
     private Date createAt;
 
     @ManyToOne
-    @JoinColumn(name = "account_id")
+    @JoinColumn(name = "create_by")
     private Account account;
 
     @Column(nullable = false)

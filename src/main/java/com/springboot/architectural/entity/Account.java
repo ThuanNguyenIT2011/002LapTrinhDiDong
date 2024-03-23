@@ -15,9 +15,6 @@ import java.util.Set;
 @NoArgsConstructor
 public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
     private String username;
     private String password;
 
@@ -29,7 +26,7 @@ public class Account {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
+            joinColumns = @JoinColumn(name = "username"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
