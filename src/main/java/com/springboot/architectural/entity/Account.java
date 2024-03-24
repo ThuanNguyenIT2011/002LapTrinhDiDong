@@ -41,11 +41,14 @@ public class Account {
 
     @OneToMany(mappedBy = "account")
     private Set<Item> items = new HashSet<>();
-
+    
+    @OneToMany(mappedBy = "account")
+    private Set<Regis> regis = new HashSet<>();
+  
     public static AccountDto copyAccount(Account account) {
         AccountDto accountNew = new AccountDto();
         accountNew.setUsername(account.getUsername());
-//        accountNew.setFullName(account.getFullName());
+    //        accountNew.setFullName(account.getFullName());
         accountNew.setFirstName(account.getFirstName());
         accountNew.setLastName(account.getLastName());
 
