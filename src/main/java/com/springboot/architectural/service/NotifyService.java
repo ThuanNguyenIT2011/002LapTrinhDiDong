@@ -10,7 +10,7 @@ public interface NotifyService {
     void saveNotify(NotifyRequest notifyRequest);
     boolean deleteNotify(Integer id) throws NotifyNotfoundException;
 
-    List<NotifyDto> getAllNotify();
+    List<NotifyDto> getAllNotify(String searchContent, String disable, String typeSort);
 
     NotifyDto getNotifyById(Integer id) throws NotifyNotfoundException;
 
