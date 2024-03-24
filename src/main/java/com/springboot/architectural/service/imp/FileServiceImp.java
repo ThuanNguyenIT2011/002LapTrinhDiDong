@@ -4,14 +4,16 @@ import com.springboot.architectural.service.FileService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.*;
 
+@Service
 public class FileServiceImp implements FileService {
-    @Value("${fileUpload.rootPatc}")
+    @Value("${fileUpload.rootPatch}")
     private String rootPath;
     private Path root;
 
@@ -29,6 +31,7 @@ public class FileServiceImp implements FileService {
 
     @Override
     public boolean save(MultipartFile file) {
+        init();
         try {
             Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
 
@@ -41,6 +44,7 @@ public class FileServiceImp implements FileService {
 
     @Override
     public Resource loadFile(String filename) {
+        init();
         try {
             Path file = root.resolve(filename);
             Resource resource = new UrlResource(file.toUri());

@@ -1,14 +1,18 @@
 package com.springboot.architectural.service.imp;
 
+import com.springboot.architectural.dto.ItemDto;
 import com.springboot.architectural.dto.NotifyDto;
 import com.springboot.architectural.entity.Account;
+import com.springboot.architectural.entity.Item;
 import com.springboot.architectural.entity.Notify;
 import com.springboot.architectural.exception.NotifyNotfoundException;
+import com.springboot.architectural.mapper.ItemMapper;
 import com.springboot.architectural.mapper.NotifyMapper;
 import com.springboot.architectural.mapper.NotifyRequestMapper;
 import com.springboot.architectural.payload.Request.NotifyRequest;
 import com.springboot.architectural.repository.NotifyRepository;
 import com.springboot.architectural.service.NotifyService;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -44,9 +48,17 @@ public class NotifyServiceImp implements NotifyService {
     }
 
     @Override
-    public List<NotifyDto> getAllNotify() {
+    public List<NotifyDto> getAllNotify(String searchContent, String disable, String typeSort) {
+
         String sortField = "createAt";
-        List<Notify> notifies = notifyRepository.findAll(Sort.by(Sort.Direction.DESC, sortField));
+        boolean status = disable.equals("true") ? true : false;
+        Sort sorted = Sort.by(sortField);
+        sorted = typeSort.equals("asc") ? sorted.ascending() : sorted.descending();
+
+        List<Notify> notifies =null;
+
+        notifies = notifyRepository.findAllFilter(searchContent, sorted);
+
         List<NotifyDto> notifyDtos = new ArrayList<>();
 
         notifies.forEach(notify -> {

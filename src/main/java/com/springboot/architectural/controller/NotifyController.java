@@ -44,7 +44,7 @@ public class NotifyController {
             notifyService.deleteNotify(id);
             responseData.setData(true);
         } catch (NotifyNotfoundException e) {
-//            throw new RuntimeException(e);
+            responseData.setSuccess(false);
             responseData.setData(false);
             responseData.setDesc(e.getMessage());
         }
@@ -61,10 +61,27 @@ public class NotifyController {
     }
 
     @GetMapping("/all")
-    public  ResponseEntity<?> getNotify(){
+    public  ResponseEntity<?> getNotify(@RequestParam(defaultValue = "") String disable,
+                                        @RequestParam(defaultValue = "DESC") String typeSort,
+                                        @RequestParam(defaultValue = "") String searchContent){
         ResponseData responseData = new ResponseData();
-        List<NotifyDto> notifyDtos = notifyService.getAllNotify();
+        List<NotifyDto> notifyDtos = notifyService.getAllNotify(searchContent, disable, typeSort);
         responseData.setData(notifyDtos);
+        return ResponseEntity.status(HttpStatus.OK).body(responseData);
+    }
+
+
+    @GetMapping("/{id}")
+    public  ResponseEntity<?> getNotifyById(@PathVariable(name = "id") Integer id){
+        ResponseData responseData = new ResponseData();
+        try {
+            NotifyDto notifyDto = notifyService.getNotifyById(id);
+            responseData.setData(notifyDto);
+        } catch (NotifyNotfoundException e) {
+            responseData.setSuccess(false);
+            responseData.setData(false);
+            responseData.setDesc(e.getMessage());
+        }
         return ResponseEntity.status(HttpStatus.OK).body(responseData);
     }
 }
