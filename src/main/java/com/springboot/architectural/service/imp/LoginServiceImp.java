@@ -43,9 +43,11 @@ public class LoginServiceImp implements LoginService {
         roles.add(role);
 
         account.setRoles(roles);
-        account.setEnable(true);
+        account.setDisable(false);
+//        account
         account.setUsername(signUpRequest.getUsername());
-
+        account.setFirstName(signUpRequest.getFirstName());
+        account.setLastName(signUpRequest.getLastName());
         String passwordEncode = passwordEncoder.encode(signUpRequest.getPassword());
 
         account.setPassword(passwordEncode);
@@ -54,7 +56,7 @@ public class LoginServiceImp implements LoginService {
             accountRepository.save(account);
             return true;
         } catch (Exception ex) {
-
+            System.out.println(ex.getMessage());
             return false;
         }
     }

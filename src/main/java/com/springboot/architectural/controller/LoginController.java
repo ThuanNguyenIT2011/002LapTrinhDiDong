@@ -30,12 +30,12 @@ public class LoginController {
         ResponseData responseData = new ResponseData();
 
         if(loginService.checkLogin(username, password)) {
-            System.out.println("Hello");
+//            System.out.println("Hello");
 //            String token = utilsJwtHelper.generateToken(username);
             String token = loginService.login(username, password);
             responseData.setData(token);
         } else {
-            System.out.println("Hello2");
+//            System.out.println("Hello2");
             responseData.setData("");
             responseData.setSuccess(false);
         }

@@ -17,6 +17,9 @@ public class Notify {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private String title;
+
+    @Column(updatable = false)
     private Date createAt;
 
     @Column(nullable = false, length = Integer.MAX_VALUE)
@@ -25,4 +28,5 @@ public class Notify {
     @ManyToOne
     @JoinColumn(name = "create_by", nullable = false)
     private Account account;
+
 }
