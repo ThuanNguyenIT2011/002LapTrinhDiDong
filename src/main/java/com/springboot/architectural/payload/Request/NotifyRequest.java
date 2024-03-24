@@ -5,12 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class SignUpRequest {
+@NoArgsConstructor
+public class NotifyRequest {
+    private Integer id;
+    private String title;
+    private String content;
     private String username;
-    private String password;
-    private String  nameRole;
-    private String lastName;
-    private String firstName;
 }

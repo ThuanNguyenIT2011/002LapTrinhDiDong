@@ -17,15 +17,16 @@ public class Notify {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Date createAt;
+    private String title;
 
-    @Column(nullable = false, length = 20)
-    private String createBy;
+    @Column(updatable = false)
+    private Date createAt;
 
     @Column(nullable = false, length = Integer.MAX_VALUE)
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "account_id", nullable = false)
+    @JoinColumn(name = "create_by", nullable = false)
     private Account account;
+
 }
