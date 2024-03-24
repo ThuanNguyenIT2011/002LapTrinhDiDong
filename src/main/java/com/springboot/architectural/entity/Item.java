@@ -23,11 +23,11 @@ public class Item {
     private Date createAt;
 
     @ManyToOne
-    @JoinColumn(name = "account_id")
+    @JoinColumn(name = "create_by")
     private Account account;
 
     @Column(nullable = false)
-    private boolean enable;
+    private boolean disable;
 
     @Column(nullable = false)
     private int count;

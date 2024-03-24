@@ -4,26 +4,32 @@ import com.springboot.architectural.entity.Account;
 import com.springboot.architectural.entity.Role;
 import com.springboot.architectural.payload.Request.SignUpRequest;
 import com.springboot.architectural.repository.AccountRepository;
-import com.springboot.architectural.service.AccountService;
+import com.springboot.architectural.security.JwtTokenProvider;
+import com.springboot.architectural.service.LoginService;
 import com.springboot.architectural.service.RoleService;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
-public class AccountServiceImp implements AccountService {
+public class LoginServiceImp implements LoginService {
     @Autowired
     private AccountRepository accountRepository;
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -37,9 +43,11 @@ public class AccountServiceImp implements AccountService {
         roles.add(role);
 
         account.setRoles(roles);
-        account.setEnable(true);
+        account.setDisable(false);
+//        account
         account.setUsername(signUpRequest.getUsername());
-
+        account.setFirstName(signUpRequest.getFirstName());
+        account.setLastName(signUpRequest.getLastName());
         String passwordEncode = passwordEncoder.encode(signUpRequest.getPassword());
 
         account.setPassword(passwordEncode);
@@ -48,7 +56,7 @@ public class AccountServiceImp implements AccountService {
             accountRepository.save(account);
             return true;
         } catch (Exception ex) {
-
+            System.out.println(ex.getMessage());
             return false;
         }
     }
@@ -57,5 +65,19 @@ public class AccountServiceImp implements AccountService {
     public boolean checkLogin(String userName, String password) {
         Account account = accountRepository.findByUsername(userName).get();
         return passwordEncoder.matches(password, account.getPassword());
+    }
+
+    @Override
+    public String login(String userName, String password) {
+
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                userName, password
+        ));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+//         = new JwtTokenProvider();
+        String token =  jwtTokenProvider.generateToken(authentication);
+
+        return token;
     }
 }
