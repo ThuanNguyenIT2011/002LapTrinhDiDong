@@ -21,12 +21,12 @@ public class Room {
     private String name;
     private Integer slot;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "create_by", nullable = false)
     private Account account;
 
     private Date create_at;
-    private Integer disable;
+    private Boolean disable;
     private String img;
     @ManyToMany(mappedBy = "rooms")
     private List<Regis> regises;

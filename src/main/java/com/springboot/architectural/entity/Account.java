@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "accounts")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,7 +20,7 @@ public class Account {
     private String first_name;
     private String last_name;
 
-    private boolean enable;
+    private boolean disable;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

@@ -43,13 +43,14 @@ public class LoginServiceImp implements LoginService {
         roles.add(role);
 
         account.setRoles(roles);
-        account.setEnable(true);
+        account.setDisable(false);
         account.setUsername(signUpRequest.getUsername());
 
         String passwordEncode = passwordEncoder.encode(signUpRequest.getPassword());
 
         account.setPassword(passwordEncode);
 
+        System.out.println(account.toString());
         try {
             accountRepository.save(account);
             return true;
@@ -61,7 +62,8 @@ public class LoginServiceImp implements LoginService {
 
     @Override
     public boolean checkLogin(String userName, String password) {
-        Account account = accountRepository.findByUsername(userName).get();
+
+       Account  account = accountRepository.findByUsername(userName).get();
         return passwordEncoder.matches(password, account.getPassword());
     }
 

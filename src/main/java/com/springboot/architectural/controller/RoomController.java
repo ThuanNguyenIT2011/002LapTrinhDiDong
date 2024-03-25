@@ -2,23 +2,26 @@ package com.springboot.architectural.controller;
 
 import com.springboot.architectural.entity.Role;
 import com.springboot.architectural.entity.Room;
+import com.springboot.architectural.payload.Request.RoomDto;
 import com.springboot.architectural.payload.ResponseData;
 import com.springboot.architectural.service.RoleService;
 import com.springboot.architectural.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/room")
+
 public class RoomController {
     @Autowired
     RoomService roomService;
     @GetMapping("/get-room")
     public ResponseEntity<?> getRoom(@RequestParam int id){
         ResponseData responseData = new ResponseData();
-        if (roomService.getRoomById(id).isEmpty())
+        if (roomService.getRoomById(id) == null)
         {
             responseData.setSuccess(false);
             responseData.setDesc("Not Found Room By ID");
@@ -35,15 +38,16 @@ public class RoomController {
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
     @PostMapping("/create")
-    public ResponseEntity<?> createRoom(@RequestBody Room room){
+    public ResponseEntity<?> createRoom(@RequestBody RoomDto room){
+        System.out.println("ROOM: "+room.toString());
         ResponseData responseData = new ResponseData();
         responseData.setData(roomService.addRoom(room));
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
-    @PostMapping("/update")
-    public ResponseEntity<?> updateRoom(@RequestBody Room room){
+    @PutMapping("/update")
+    public ResponseEntity<?> updateRoom(@RequestBody RoomDto room){
         ResponseData responseData = new ResponseData();
-        if (roomService.getRoomById(room.getId()).isEmpty())
+        if (roomService.getRoomById(room.getId()) == null)
         {
             responseData.setSuccess(false);
             return new ResponseEntity<>(responseData, HttpStatus.OK);
@@ -51,18 +55,16 @@ public class RoomController {
         responseData.setData(roomService.updateRoom(room));
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
-    @PostMapping("/delete")
-    public ResponseEntity<?> deleteRoom(@RequestBody Room room){
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteRoom(@RequestParam int id){
         ResponseData responseData = new ResponseData();
-        if (roomService.getRoomById(room.getId()).isEmpty())
+        if (roomService.getRoomById(id) == null)
         {
             responseData.setSuccess(false);
             return new ResponseEntity<>(responseData, HttpStatus.OK);
         }
-        responseData.setData(roomService.deleteRoom(room.getId()));
+        responseData.setData(roomService.deleteRoom(id));
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
-
-
 
 }
