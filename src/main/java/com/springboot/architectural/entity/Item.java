@@ -4,11 +4,12 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.sql.Update;
 
 import java.util.Date;
 
 @Entity
-@Table(name = "items")
+@Table(name = "Item")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,6 +21,7 @@ public class Item {
     @Column(nullable = false, length = 255)
     private String name;
 
+    @Column(updatable = false)
     private Date createAt;
 
     @ManyToOne

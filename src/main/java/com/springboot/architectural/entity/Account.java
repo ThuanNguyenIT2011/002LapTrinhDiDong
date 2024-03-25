@@ -54,4 +54,8 @@ public class Account {
 
         return accountNew;
     }
+
+    public Account(String username) {
+        this.username = username;
+    }
 }
