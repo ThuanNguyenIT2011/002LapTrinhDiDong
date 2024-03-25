@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/room")
@@ -14,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 public class RoomController {
     @Autowired
     RoomService roomService;
-    @GetMapping("/get-room")
-    public ResponseEntity<?> getRoom(@RequestParam int id){
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getRoom(@PathVariable(name = "id") Integer id){
         ResponseData responseData = new ResponseData();
         if (roomService.getRoomById(id) == null)
         {
@@ -29,15 +30,16 @@ public class RoomController {
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 
-    @GetMapping("/get-all-room")
-    public ResponseEntity<?> getAllRoom(){
+    @GetMapping("/get-all")
+    public ResponseEntity<?> getAllRoom(@RequestParam(defaultValue = "") String disable,
+                                        @RequestParam(defaultValue = "DESC") String typeSort,
+                                        @RequestParam(defaultValue = "") String searchContent){
         ResponseData responseData = new ResponseData();
-        responseData.setData(roomService.getAllRoom());
+        responseData.setData(roomService.getAllRoom(searchContent, disable, typeSort));
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
     @PostMapping("/create")
     public ResponseEntity<?> createRoom(@RequestBody RoomDto room){
-        System.out.println("ROOM: "+room.toString());
         ResponseData responseData = new ResponseData();
         responseData.setData(roomService.addRoom(room));
         responseData.setDesc("Create room successfully");
@@ -71,5 +73,23 @@ public class RoomController {
 
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
+
+    @PostMapping("/upload")
+    public ResponseEntity<?> deleteRoom(@RequestParam(name = "fileUpload")MultipartFile multipartFile, @RequestParam(name= "room_id")Integer room_id){
+        ResponseData responseData = new ResponseData();
+        if (roomService.uploadImg(multipartFile, room_id))
+        {
+            responseData.setData(true);
+            responseData.setDesc("Upload room successfully");
+        }
+        else
+        {
+            responseData.setData(false);
+            responseData.setDesc("Upload failed");
+        }
+        return new ResponseEntity<>(responseData, HttpStatus.OK);
+    }
+
+
 
 }
