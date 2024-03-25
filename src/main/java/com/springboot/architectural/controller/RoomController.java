@@ -28,6 +28,8 @@ public class RoomController {
             return new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
         }
         responseData.setData(roomService.getRoomById(id));
+        responseData.setDesc("Get room successfully");
+
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 
@@ -42,6 +44,7 @@ public class RoomController {
         System.out.println("ROOM: "+room.toString());
         ResponseData responseData = new ResponseData();
         responseData.setData(roomService.addRoom(room));
+        responseData.setDesc("Create room successfully");
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
     @PutMapping("/update")
@@ -50,9 +53,11 @@ public class RoomController {
         if (roomService.getRoomById(room.getId()) == null)
         {
             responseData.setSuccess(false);
+            responseData.setDesc("Update failed");
             return new ResponseEntity<>(responseData, HttpStatus.OK);
         }
         responseData.setData(roomService.updateRoom(room));
+        responseData.setDesc("Update room successfully");
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
     @DeleteMapping("/delete")
@@ -61,9 +66,13 @@ public class RoomController {
         if (roomService.getRoomById(id) == null)
         {
             responseData.setSuccess(false);
+            responseData.setDesc("Delete failed");
+
             return new ResponseEntity<>(responseData, HttpStatus.OK);
         }
         responseData.setData(roomService.deleteRoom(id));
+        responseData.setDesc("Delete room successfully");
+
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 

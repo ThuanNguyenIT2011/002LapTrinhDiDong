@@ -27,7 +27,7 @@ public class Item {
     private Account account;
 
     @Column(nullable = false)
-    private boolean enable;
+    private boolean disable;
 
     @Column(nullable = false)
     private int count;

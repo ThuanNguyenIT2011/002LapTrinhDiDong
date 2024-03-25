@@ -10,7 +10,7 @@ import lombok.ToString;
 import java.util.Set;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "Roles")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
