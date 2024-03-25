@@ -1,6 +1,6 @@
 package com.springboot.architectural.service;
 
-import com.springboot.architectural.payload.Request.RoomDto;
+import com.springboot.architectural.dto.RoomDto;
 
 import java.util.List;
 

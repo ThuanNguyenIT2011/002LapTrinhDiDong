@@ -1,15 +1,11 @@
 package com.springboot.architectural.controller;
 
-import com.springboot.architectural.entity.Role;
-import com.springboot.architectural.entity.Room;
-import com.springboot.architectural.payload.Request.RoomDto;
+import com.springboot.architectural.dto.RoomDto;
 import com.springboot.architectural.payload.ResponseData;
-import com.springboot.architectural.service.RoleService;
 import com.springboot.architectural.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

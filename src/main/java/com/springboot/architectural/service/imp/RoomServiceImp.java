@@ -3,7 +3,7 @@ package com.springboot.architectural.service.imp;
 import com.springboot.architectural.entity.Account;
 import com.springboot.architectural.entity.Room;
 import com.springboot.architectural.mapper.RoomMapper;
-import com.springboot.architectural.payload.Request.RoomDto;
+import com.springboot.architectural.dto.RoomDto;
 import com.springboot.architectural.repository.AccountRepository;
 import com.springboot.architectural.repository.RoomRepository;
 import com.springboot.architectural.service.RoomService;

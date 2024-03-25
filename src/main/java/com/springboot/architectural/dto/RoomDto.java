@@ -1,4 +1,4 @@
-package com.springboot.architectural.payload.Request;
+package com.springboot.architectural.dto;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

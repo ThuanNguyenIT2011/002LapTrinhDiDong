@@ -1,11 +1,9 @@
 package com.springboot.architectural.mapper;
 
 import com.springboot.architectural.entity.Room;
-import com.springboot.architectural.payload.Request.RoomDto;
+import com.springboot.architectural.dto.RoomDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-
-import java.util.Optional;
 
 @Mapper
 public interface RoomMapper {
