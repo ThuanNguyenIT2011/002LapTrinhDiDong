@@ -13,12 +13,12 @@ import java.sql.Date;
 public class RegisDto {
     @Id
     private Integer id;
-    private Date start_at;
-    private Date end_at;
-    private Date start_regis_at;
-    private Date end_regis_at;
-    private String create_by;
-    private Date create_at;
-    private Integer room_price_VND;
+    private Date startAt;
+    private Date endAt;
+    private Date startRegisAt;
+    private Date endRegisAt;
+    private String createBy;
+    private Date createAt;
+    private Integer roomPriceVND;
     private AccountDto Account;
 }

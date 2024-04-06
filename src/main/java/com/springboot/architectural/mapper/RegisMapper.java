@@ -10,11 +10,11 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface RegisMapper {
     RegisMapper INSTANCE = Mappers.getMapper(RegisMapper.class );
-    @Mapping(target = "end_regis_at", source = "regis.endRegisAt")
-    @Mapping(target = "end_at", source = "regis.end_at")
-    @Mapping(target = "create_by", source = "regis.account.username")
+    @Mapping(target = "endRegisAt", source = "regis.endRegisAt")
+    @Mapping(target = "endAt", source = "regis.endAt")
+    @Mapping(target = "createBy", source = "regis.account.username")
     RegisDto regisToRegisDto(Regis regis);
-    @Mapping(target = "endRegisAt", source = "regisDto.end_regis_at")
-    @Mapping(target = "end_at", source = "regisDto.end_at")
+    @Mapping(target = "endRegisAt", source = "regisDto.endRegisAt")
+    @Mapping(target = "endAt", source = "regisDto.endAt")
     Regis regisDtoToRegis(RegisDto regisDto);
 }

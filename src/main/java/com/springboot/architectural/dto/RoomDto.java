@@ -16,8 +16,8 @@ public class RoomDto {
     private Integer id;
     private String name;
     private Integer slot;
-    private String create_by;
-    private Date create_at;
+    private String createBy;
+    private Date createAt;
     private Boolean disable;
     private String img;
 }

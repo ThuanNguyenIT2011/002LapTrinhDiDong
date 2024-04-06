@@ -21,13 +21,13 @@ public class Account {
     private String username;
     private String password;
 
-    @Column(nullable = false, length = 20)
+//    @Column(nullable = false, length = 20)
     private String firstName;
 
-    @Column(nullable = false, length = 20)
+//    @Column(nullable = false, length = 20)
     private String lastName;
 
-    private boolean disable;
+    private boolean disable = false;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

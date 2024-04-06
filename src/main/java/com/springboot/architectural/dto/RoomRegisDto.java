@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 public class RoomRegisDto {
     @Id
     private Integer id;
-    private Integer room_id;
-    private Integer regis_id;
+    private Integer roomId;
+    private Integer regisId;
     private RegisDto regis;
     private RoomDto room;
 }

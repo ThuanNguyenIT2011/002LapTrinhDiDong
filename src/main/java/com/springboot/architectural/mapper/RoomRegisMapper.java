@@ -12,8 +12,8 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface RoomRegisMapper {
     RoomRegisMapper INSTANCE = Mappers.getMapper(RoomRegisMapper.class );
-    @Mapping(target = "room_id", source = "roomRegis.room.id")
-    @Mapping(target = "regis_id", source = "roomRegis.regis.id")
+    @Mapping(target = "roomId", source = "roomRegis.room.id")
+    @Mapping(target = "regisId", source = "roomRegis.regis.id")
     RoomRegisDto roomRegisToRoomRegisDto(RoomRegis roomRegis);
     RoomRegis roomRegisDtoToRoomRegis(RoomRegisDto rooomRegisDto);
 }

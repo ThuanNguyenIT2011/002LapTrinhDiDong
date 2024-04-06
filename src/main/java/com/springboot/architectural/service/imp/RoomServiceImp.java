@@ -39,7 +39,7 @@ public class RoomServiceImp implements RoomService {
 
     @Override
     public List<RoomDto> getAllRoom(String searchContent, String disable, String typeSort) {
-        String sortField = "create_at";
+        String sortField = "createAt";
         boolean status = disable.equals("true") || disable.equals("1") ? true : false;
         Sort sorted = Sort.by(sortField);
         sorted = typeSort.equals("asc") ? sorted.ascending() : sorted.descending();
@@ -56,7 +56,7 @@ public class RoomServiceImp implements RoomService {
     @Override
     public RoomDto addRoom(RoomDto room) {
         Room roomEntity = RoomMapper.INSTANCE.roomDtotoRoom(room);
-        roomEntity.setAccount(accountRepository.findByUsername(room.getCreate_by()).get());
+        roomEntity.setAccount(accountRepository.findByUsername(room.getCreateBy()).get());
         return  RoomMapper.INSTANCE.roomToRoomDto(roomRepository.save(roomEntity));
     }
 
@@ -64,7 +64,7 @@ public class RoomServiceImp implements RoomService {
     public RoomDto updateRoom(RoomDto room) {
         if (room.getId() == null) return null;
         Optional<Room> roomCheck = roomRepository.findById(room.getId());
-        Optional<Account> accountCheck = accountRepository.findById(room.getCreate_by());
+        Optional<Account> accountCheck = accountRepository.findById(room.getCreateBy());
         if (!roomCheck.isPresent() ||  !accountCheck.isPresent()) return  null;
         Room roomEntity = RoomMapper.INSTANCE.roomDtotoRoom(room);
         roomEntity.setAccount(accountCheck.get());

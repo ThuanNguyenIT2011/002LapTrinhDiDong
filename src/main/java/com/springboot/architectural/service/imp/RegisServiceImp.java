@@ -53,7 +53,7 @@ public class RegisServiceImp implements RegisService {
     @Override
     public RegisDto add(RegisDto regis) {
         Regis regisEntity = RegisMapper.INSTANCE.regisDtoToRegis(regis);
-        regisEntity.setAccount(accountRepository.findByUsername(regis.getCreate_by()).get());
+        regisEntity.setAccount(accountRepository.findByUsername(regis.getCreateBy()).get());
         return  RegisMapper.INSTANCE.regisToRegisDto(regisRepository.save(regisEntity));
     }
 
@@ -61,7 +61,7 @@ public class RegisServiceImp implements RegisService {
     public RegisDto update(RegisDto regis) {
         if (regis.getId() == null) return null;
         Optional<Regis> regisCheck = regisRepository.findById(regis.getId());
-        Optional<Account> accountCheck = accountRepository.findById(regis.getCreate_by());
+        Optional<Account> accountCheck = accountRepository.findById(regis.getCreateBy());
         if (!regisCheck.isPresent() ||  !accountCheck.isPresent()) return  null;
         Regis regisEntity = RegisMapper.INSTANCE.regisDtoToRegis(regis);
         regisEntity.setAccount(accountCheck.get());

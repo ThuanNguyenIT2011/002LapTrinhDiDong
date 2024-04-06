@@ -19,22 +19,21 @@ public class Regis {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Date start_at;
-    private Date end_at;
-    private Date start_regis_at;
+    @Column(name = "start_at")
+    private Date startAt;
+    @Column(name = "end_at")
+    private Date endAt;
+    @Column(name = "start_regis_at")
+    private Date startRegisAt;
     @Column(name = "end_regis_at")
     private Date endRegisAt;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "create_by", nullable = false)
     private Account account;
-    private Date create_at;
-    private Integer room_price_VND;
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(
-//            name = "RoomRegis",
-//            joinColumns = @JoinColumn(name = "regis_id"),
-//            inverseJoinColumns = @JoinColumn(name = "room_id"))
-//    private List<Room> rooms;
+    @Column(name = "create_at")
+    private Date createAt;
+    @Column(name = "room_price_VND")
+    private Integer roomPriceVND;
     @OneToMany(mappedBy = "regis")
     private List<RoomRegis> roomRegis;
 }

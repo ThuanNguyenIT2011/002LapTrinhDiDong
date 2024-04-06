@@ -46,9 +46,9 @@ public class RoomRegisServiceImp implements RoomRegisService {
     public RoomRegisDto add(RoomRegisDto roomRegis) {
         System.out.println(roomRegis);
         RoomRegis roomRegisEntity = RoomRegisMapper.INSTANCE.roomRegisDtoToRoomRegis(roomRegis);
-        if (roomRegis.getRegis_id() == null || roomRegis.getRoom_id() == null  ) return null;
-        Optional<Room> room = roomRepository.findById(roomRegis.getRoom_id());
-        Optional<Regis> regis = regisRepository.findById(roomRegis.getRegis_id());
+        if (roomRegis.getRegisId() == null || roomRegis.getRoomId() == null  ) return null;
+        Optional<Room> room = roomRepository.findById(roomRegis.getRoomId());
+        Optional<Regis> regis = regisRepository.findById(roomRegis.getRegisId());
         if (room.isEmpty() || regis.isEmpty()) return null;
         roomRegisEntity.setRoom(room.get());
         roomRegisEntity.setRegis(regis.get());
@@ -63,22 +63,16 @@ public class RoomRegisServiceImp implements RoomRegisService {
 
         Optional<RoomRegis> checkRR = roomRegisRepository.findById(roomRegis.getId());
         if (checkRR.isEmpty()) return  null;
-        System.out.println(2);
 
-        if (roomRegis.getRegis_id() == null || roomRegis.getRoom_id() == null  ) return null;
-        Optional<Room> room = roomRepository.findById(roomRegis.getRegis_id());
-        Optional<Regis> regis = regisRepository.findById(roomRegis.getRoom_id());
-        System.out.println(roomRegis.getRegis_id());
-        System.out.println(roomRegis.getRoom_id());
-
+        if (roomRegis.getRegisId() == null || roomRegis.getRoomId() == null  ) return null;
+        Optional<Room> room = roomRepository.findById(roomRegis.getRegisId());
+        Optional<Regis> regis = regisRepository.findById(roomRegis.getRoomId());
 
         if (room.isEmpty() || regis.isEmpty()) return null;
-        System.out.println(4);
 
         RoomRegis roomRegisEntity = RoomRegisMapper.INSTANCE.roomRegisDtoToRoomRegis(roomRegis);
         roomRegisEntity.setRoom(room.get());
         roomRegisEntity.setRegis(regis.get());
-        System.out.println(4);
 
         return  RoomRegisMapper.INSTANCE.roomRegisToRoomRegisDto(roomRegisRepository.save(roomRegisEntity));
     }

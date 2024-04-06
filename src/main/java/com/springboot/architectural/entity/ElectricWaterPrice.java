@@ -18,9 +18,13 @@ public class ElectricWaterPrice {
     @JoinColumn(name = "room_regis_id")
     private RoomRegis roomRegis;
     private Integer month;
-    private Integer electric_kg;
-    private Integer water_m3;
-    private Integer electric_unit_price;
-    private Integer water_unit_price;
+    @Column(name = "electric_kg")
+    private Integer electricKg;
+    @Column(name = "water_m3")
+    private Integer waterM3;
+    @Column(name = "electric_unit_price")
+    private Integer electricUnitPrice;
+    @Column(name = "water_unit_price")
+    private Integer waterUnitPrice;
 
 }
