@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 @Entity
 @Table(name = "Bill")
 @Data
@@ -18,7 +21,8 @@ public class Bill {
     private String content;
     private Integer price;
     private Boolean pay;
-
+    @Column(name = "create_at")
+    private Date createAt;
     @ManyToOne
     @JoinColumn(name = "accept_by")
     private Account account;

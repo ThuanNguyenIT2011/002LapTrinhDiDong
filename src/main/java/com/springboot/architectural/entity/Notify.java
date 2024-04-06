@@ -19,7 +19,7 @@ public class Notify {
 
     private String title;
 
-    @Column(updatable = false)
+    @Column(name = "create_at",updatable = false)
     private Date createAt;
 
     @Column(nullable = false, length = Integer.MAX_VALUE)

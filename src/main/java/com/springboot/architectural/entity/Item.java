@@ -21,7 +21,7 @@ public class Item {
     @Column(nullable = false, length = 255)
     private String name;
 
-    @Column(updatable = false)
+    @Column(name = "create_at",updatable = false)
     private Date createAt;
 
     @ManyToOne
