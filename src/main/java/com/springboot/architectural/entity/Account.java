@@ -22,12 +22,17 @@ public class Account {
     private String password;
 
 //    @Column(nullable = false, length = 20)
+    @Column(name = "[first_name]")
     private String firstName;
 
 //    @Column(nullable = false, length = 20)
+    @Column(name = "last_name")
     private String lastName;
 
     private boolean disable = false;
+
+    @Column(name = "verification_code")
+    private String verificationCode;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -44,6 +49,7 @@ public class Account {
     
     @OneToMany(mappedBy = "account")
     private Set<Regis> regis = new HashSet<>();
+
   
     public static AccountDto copyAccount(Account account) {
         AccountDto accountNew = new AccountDto();

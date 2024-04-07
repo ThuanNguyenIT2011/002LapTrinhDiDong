@@ -30,4 +30,7 @@ public class Room {
     @OneToMany(mappedBy = "room")
     private List<RoomRegis> regis;
 
+    @OneToMany(mappedBy = "room")
+    private List<RoomItem> roomItems;
+
 }
