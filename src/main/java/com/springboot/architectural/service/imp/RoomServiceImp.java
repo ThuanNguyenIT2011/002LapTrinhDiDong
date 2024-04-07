@@ -38,17 +38,17 @@ public class RoomServiceImp implements RoomService {
     }
 
     @Override
-    public List<RoomDto> getAllRoom(String searchContent, String disable, String typeSort) {
+    public List<RoomDto> getAllRoom(String searchContent,String typeRoom, String disable, String typeSort) {
         String sortField = "createAt";
         boolean status = disable.equals("true") || disable.equals("1") ? true : false;
         Sort sorted = Sort.by(sortField);
         sorted = typeSort.equals("asc") ? sorted.ascending() : sorted.descending();
         List<Room> rooms = new ArrayList<>();
         if (disable == "") {
-            rooms = roomRepository.findAllFilter(searchContent, sorted);
+            rooms = roomRepository.findAllFilter(searchContent, typeRoom, sorted);
         }
         else {
-            rooms = roomRepository.findFilterByDisable(status, searchContent, sorted);
+            rooms = roomRepository.findFilterByDisable(status,typeRoom, searchContent, sorted);
         }
         return rooms.stream().map((room) ->  RoomMapper.INSTANCE.roomToRoomDto(room)).collect(Collectors.toList());
     }

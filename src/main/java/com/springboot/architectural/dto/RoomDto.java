@@ -20,4 +20,5 @@ public class RoomDto {
     private Date createAt;
     private Boolean disable;
     private String img;
+    private String type;
 }

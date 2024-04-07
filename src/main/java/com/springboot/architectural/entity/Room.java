@@ -27,6 +27,7 @@ public class Room {
     private Date createAt;
     private Boolean disable;
     private String img;
+    private String type;
     @OneToMany(mappedBy = "room")
     private List<RoomRegis> regis;
 

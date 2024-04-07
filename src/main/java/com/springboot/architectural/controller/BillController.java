@@ -40,6 +40,34 @@ public class BillController {
         responseData.setDesc("Get all successfully");
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
+    @GetMapping("/get-all-by-student")
+    public ResponseEntity<?> getAllByStudentId(@RequestParam String studentId){
+        ResponseData responseData = new ResponseData();
+        responseData.setData(billService.getAllByStudent(studentId));
+        responseData.setDesc("Get all successfully");
+        return new ResponseEntity<>(responseData, HttpStatus.OK);
+    }
+    @GetMapping("/get-all-by-roomId")
+    public ResponseEntity<?> getAllByRoomID(@RequestParam Integer roomId){
+        ResponseData responseData = new ResponseData();
+        responseData.setData(billService.getAllByRoomId(roomId));
+        responseData.setDesc("Get all successfully");
+        return new ResponseEntity<>(responseData, HttpStatus.OK);
+    }
+    @GetMapping("/get-all-by-room")
+    public ResponseEntity<?> getAllByRoom(){
+        ResponseData responseData = new ResponseData();
+        responseData.setData(billService.getAllByRoom());
+        responseData.setDesc("Get all successfully");
+        return new ResponseEntity<>(responseData, HttpStatus.OK);
+    }
+    @GetMapping("/get-all-by-electric-water")
+    public ResponseEntity<?> getAllByElectricWater(){
+        ResponseData responseData = new ResponseData();
+        responseData.setData(billService.getAllByElectricWater());
+        responseData.setDesc("Get all successfully");
+        return new ResponseEntity<>(responseData, HttpStatus.OK);
+    }
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody BillDto billDto){
         ResponseData responseData = new ResponseData();
@@ -61,8 +89,9 @@ public class BillController {
         responseData.setDesc("Update bill successfully");
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
+
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteRoom(@RequestParam int id){
+    public ResponseEntity<?> delete(@RequestParam int id){
         ResponseData responseData = new ResponseData();
         if (billService.getById(id) == null)
         {
@@ -77,6 +106,20 @@ public class BillController {
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 
+    @PutMapping("/pay")
+    public ResponseEntity<?> payBill(@RequestParam int id){
+        ResponseData responseData = new ResponseData();
+        if (billService.getById(id) == null)
+        {
+            responseData.setSuccess(false);
+            responseData.setDesc("Pay failed");
 
+            return new ResponseEntity<>(responseData, HttpStatus.OK);
+        }
+        responseData.setData(billService.payBill(id));
+        responseData.setDesc("Pay bill successfully");
+
+        return new ResponseEntity<>(responseData, HttpStatus.OK);
+    }
 
 }

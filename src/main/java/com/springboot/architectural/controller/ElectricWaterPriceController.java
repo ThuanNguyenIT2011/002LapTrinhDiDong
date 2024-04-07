@@ -30,6 +30,22 @@ public class ElectricWaterPriceController {
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 
+    @GetMapping("/get-by-room-month")
+    public ResponseEntity<?> getByRoomMonth(@RequestParam(name = "roomId") Integer roomId,
+                                            @RequestParam(name = "month") Integer month){
+        ResponseData responseData = new ResponseData();
+        ElectricWaterPriceDto electricWaterPriceDto = electricWaterPriceService.getByRoomMonth(roomId, month);
+        if (electricWaterPriceDto == null)
+        {
+            responseData.setSuccess(false);
+            responseData.setDesc("Not Found  By ID");
+            return new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
+        }
+        responseData.setData(electricWaterPriceDto);
+        responseData.setDesc("Get  successfully");
+        return new ResponseEntity<>(responseData, HttpStatus.OK);
+    }
+
     @GetMapping("/get-all")
     public ResponseEntity<?> getAll(){
         ResponseData responseData = new ResponseData();

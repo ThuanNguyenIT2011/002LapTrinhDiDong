@@ -2,16 +2,10 @@ package com.springboot.architectural.service.imp;
 
 import com.springboot.architectural.dto.ElectricWaterPriceDto;
 import com.springboot.architectural.dto.RegisDto;
-import com.springboot.architectural.entity.Account;
-import com.springboot.architectural.entity.ElectricWaterPrice;
-import com.springboot.architectural.entity.Regis;
-import com.springboot.architectural.entity.RoomRegis;
+import com.springboot.architectural.entity.*;
 import com.springboot.architectural.mapper.ElectricWaterPriceMapper;
 import com.springboot.architectural.mapper.RegisMapper;
-import com.springboot.architectural.repository.AccountRepository;
-import com.springboot.architectural.repository.ElectricWaterPriceRepository;
-import com.springboot.architectural.repository.RegisRepository;
-import com.springboot.architectural.repository.RoomRegisRepository;
+import com.springboot.architectural.repository.*;
 import com.springboot.architectural.service.ElectricWaterPriceService;
 import com.springboot.architectural.service.RegisService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +24,25 @@ public class ElectricWaterPriceServiceImp implements ElectricWaterPriceService {
     @Autowired
     private RoomRegisRepository roomRegisRepository;
 
+    @Autowired
+    private BillRepository billRepository;
+
     @Override
     public ElectricWaterPriceDto getById(int id) {
         Optional<ElectricWaterPrice> electricWaterPrice = electricWaterPriceRepository.findById(id);
         return electricWaterPrice.map(ElectricWaterPriceMapper.INSTANCE::electricWaterPriceToElectricWaterPriceDto).orElse(null);
     }
 
+    @Override
+    public ElectricWaterPriceDto getByRoomMonth(int roomId, int month)
+    {
+        Optional<ElectricWaterPrice> electricWaterPrice = electricWaterPriceRepository.findByRoomMonth(roomId, month);
+        if (electricWaterPrice.isEmpty()) return  null;
+        Optional<Bill> bill= billRepository.findByEWPId(electricWaterPrice.get().getId());
+        ElectricWaterPriceDto electricWaterPriceDto = electricWaterPrice.map(ElectricWaterPriceMapper.INSTANCE::electricWaterPriceToElectricWaterPriceDto).orElse(null);
+        if (bill.get().getPay()) electricWaterPriceDto.setPay(true); else electricWaterPriceDto.setPay(false);
+        return electricWaterPriceDto;
+    }
     @Override
     public List<ElectricWaterPriceDto> getAll() {
         List<ElectricWaterPrice> electricWaterPriceList = electricWaterPriceRepository.findAll();

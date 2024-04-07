@@ -32,10 +32,11 @@ public class RoomController {
 
     @GetMapping("/get-all")
     public ResponseEntity<?> getAllRoom(@RequestParam(defaultValue = "") String disable,
+                                        @RequestParam(defaultValue = "") String typeRoom,
                                         @RequestParam(defaultValue = "DESC") String typeSort,
                                         @RequestParam(defaultValue = "") String searchContent){
         ResponseData responseData = new ResponseData();
-        responseData.setData(roomService.getAllRoom(searchContent, disable, typeSort));
+        responseData.setData(roomService.getAllRoom(searchContent,typeRoom, disable, typeSort));
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
     @PostMapping("/create")

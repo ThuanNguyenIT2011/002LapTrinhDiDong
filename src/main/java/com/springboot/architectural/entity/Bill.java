@@ -19,6 +19,7 @@ public class Bill {
     private Integer id;
     private String title;
     private String content;
+
     private Integer price;
     private Boolean pay;
     @Column(name = "create_at")

@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface ElectricWaterPriceService {
     ElectricWaterPriceDto getById(int id);
+    ElectricWaterPriceDto getByRoomMonth(int roomId, int month);
     List<ElectricWaterPriceDto> getAll();
     ElectricWaterPriceDto add(ElectricWaterPriceDto electricWaterPriceDto);
     ElectricWaterPriceDto update(ElectricWaterPriceDto electricWaterPriceDto);

@@ -27,5 +27,7 @@ public class BillDto {
     private String boardingId;
     private ElectricWaterPriceDto electricWaterPrice;
     private String electricWaterPriceId;
+    private Date endAtOfRegis;
+    private String roomRegisId;
 
 }

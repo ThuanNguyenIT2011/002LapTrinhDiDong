@@ -14,6 +14,7 @@ public interface BillMapper {
     BillMapper INSTANCE = Mappers.getMapper(BillMapper.class );
     @Mapping(target = "acceptBy", source = "bill.account.username")
     @Mapping(target = "boardingId", source = "bill.boardingHistory.id")
+    @Mapping(target = "roomRegisId", source = "bill.boardingHistory.roomRegis.id")
     @Mapping(target = "electricWaterPriceId", source = "bill.electricWaterPrice.id")
     BillDto billToBillDto(Bill bill);
     Bill billDtoToBill(BillDto billDto);

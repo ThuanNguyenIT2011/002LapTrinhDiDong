@@ -49,17 +49,64 @@ public class BillServiceImp implements BillService {
         return bills.stream().map(BillMapper.INSTANCE::billToBillDto).collect(Collectors.toList());
     }
 
+    public List<BillDto> getAllByStudent(String studentId) {
+        List<Bill> bills = billRepository.findAllByStudent(studentId);
+        return bills.stream().map(BillMapper.INSTANCE::billToBillDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BillDto> getAllByRoomId(Integer roomID) {
+        List<Bill> bills = billRepository.findAllByRoomId(roomID);
+        return bills.stream().map(BillMapper.INSTANCE::billToBillDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BillDto> getAllByRoom()
+    {
+        List<Bill> bills = billRepository.findAllByRoom();
+        return bills.stream().map(BillMapper.INSTANCE::billToBillDto).collect(Collectors.toList());
+    }
+    @Override
+    public List<BillDto> getAllByElectricWater(){
+        List<Bill> bills = billRepository.findAllByElectricWater();
+        return bills.stream().map(BillMapper.INSTANCE::billToBillDto).collect(Collectors.toList());
+    }
     @Override
     public BillDto add(BillDto billDto) {
         Bill entity = BillMapper.INSTANCE.billDtoToBill(billDto);
-        Optional<BoardingHistory> boardingHistory = boardingHistoryRepository.findById(Integer.valueOf(billDto.getBoardingId()));
-        Optional<ElectricWaterPrice> electricWaterPrice = electricWaterPriceRepository.findById(Integer.valueOf(billDto.getElectricWaterPriceId()));
+        if (billDto.getBoardingId() != null) {
+            Optional<BoardingHistory> boardingHistory = boardingHistoryRepository.findById(Integer.valueOf(billDto.getBoardingId()));
+            if (boardingHistory.isEmpty()) return null;
+            Integer price = boardingHistory.get().getRoomRegis().getRegis().getRoomPriceVND();
+            entity.setPrice(price);
+            entity.setBoardingHistory(boardingHistory.get());
+        }
+        if (billDto.getElectricWaterPriceId() != null) {
+            Optional<ElectricWaterPrice> electricWaterPrice = electricWaterPriceRepository.findById(Integer.valueOf(billDto.getElectricWaterPriceId()));
+            if (electricWaterPrice.isEmpty()) return null;
+            Integer uE = electricWaterPrice.get().getElectricUnitPrice();
+            Integer mE = electricWaterPrice.get().getElectricKg();
+            Integer uW = electricWaterPrice.get().getWaterUnitPrice();
+            Integer mW = electricWaterPrice.get().getWaterM3();
+            Integer price = uE * mE + uW + mW;
+            entity.setPrice(price);
+            entity.setElectricWaterPrice(electricWaterPrice.get());
+
+        }
         Optional<Account> account = accountRepository.findById(billDto.getAcceptBy());
-        if (boardingHistory.isEmpty() || electricWaterPrice.isEmpty() || account.isEmpty()) return null;
-        entity.setBoardingHistory(boardingHistory.get());
-        entity.setElectricWaterPrice(electricWaterPrice.get());
+        if (account.isEmpty()) return null;
         entity.setAccount(account.get());
-        return  BillMapper.INSTANCE.billToBillDto(billRepository.save(entity));
+        return BillMapper.INSTANCE.billToBillDto(billRepository.save(entity));
+    }
+
+    @Override
+    public boolean payBill(Integer id)
+    {
+        Optional<Bill> billCheck = billRepository.findById(id);
+        if (billCheck.isEmpty()) return  false;
+        billCheck.get().setPay(true);
+        billRepository.save(billCheck.get());
+        return true;
     }
 
     @Override
@@ -68,12 +115,28 @@ public class BillServiceImp implements BillService {
         Optional<Bill> billCheck = billRepository.findById(billDto.getId());
         if (billCheck.isEmpty()) return  null;
         Bill entity = BillMapper.INSTANCE.billDtoToBill(billDto);
-        Optional<BoardingHistory> boardingHistory = boardingHistoryRepository.findById(Integer.valueOf(billDto.getBoardingId()));
-        Optional<ElectricWaterPrice> electricWaterPrice = electricWaterPriceRepository.findById(Integer.valueOf(billDto.getElectricWaterPriceId()));
+        if (billDto.getBoardingId() != null) {
+            Optional<BoardingHistory> boardingHistory = boardingHistoryRepository.findById(Integer.valueOf(billDto.getBoardingId()));
+            if (boardingHistory.isEmpty()) return  null;
+            Integer price = boardingHistory.get().getRoomRegis().getRegis().getRoomPriceVND();
+            entity.setPrice(price);
+            entity.setBoardingHistory(boardingHistory.get());
+        }
+        if (billDto.getElectricWaterPriceId() != null)
+        {
+            Optional<ElectricWaterPrice>  electricWaterPrice = electricWaterPriceRepository.findById(Integer.valueOf(billDto.getElectricWaterPriceId()));
+            if (electricWaterPrice.isEmpty()) return  null;
+            Integer uE = electricWaterPrice.get().getElectricUnitPrice();
+            Integer mE = electricWaterPrice.get().getElectricKg();
+            Integer uW = electricWaterPrice.get().getWaterUnitPrice();
+            Integer mW = electricWaterPrice.get().getWaterM3();
+            Integer price = uE*mE + uW+mW;
+            entity.setPrice(price);
+            entity.setElectricWaterPrice(electricWaterPrice.get());
+
+        }
         Optional<Account> account = accountRepository.findById(billDto.getAcceptBy());
-        if (boardingHistory.isEmpty() || electricWaterPrice.isEmpty() || account.isEmpty()) return null;
-        entity.setBoardingHistory(boardingHistory.get());
-        entity.setElectricWaterPrice(electricWaterPrice.get());
+        if (account.isEmpty()) return null;
         entity.setAccount(account.get());
         return  BillMapper.INSTANCE.billToBillDto(billRepository.save(entity));
     }

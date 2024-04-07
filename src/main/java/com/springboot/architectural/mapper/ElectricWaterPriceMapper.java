@@ -13,6 +13,9 @@ import org.mapstruct.factory.Mappers;
 public interface ElectricWaterPriceMapper {
     ElectricWaterPriceMapper INSTANCE = Mappers.getMapper(ElectricWaterPriceMapper.class );
     @Mapping(target = "roomRegisId", source = "electricWaterPrice.roomRegis.id")
+    @Mapping(target = "roomId", source = "electricWaterPrice.roomRegis.room.id")
+    @Mapping(target = "roomName", source = "electricWaterPrice.roomRegis.room.name")
+    @Mapping(target = "endAtOfRegis", source = "electricWaterPrice.roomRegis.regis.endAt")
     ElectricWaterPriceDto electricWaterPriceToElectricWaterPriceDto(ElectricWaterPrice electricWaterPrice);
     ElectricWaterPrice electricWaterPriceDtoToElectricWaterPrice(ElectricWaterPriceDto electricWaterPriceDto);
 }
