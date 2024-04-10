@@ -103,7 +103,7 @@ public class LoginServiceImp implements LoginService {
     public boolean verifyCode(String code, String username) throws AccountNotFoundException {
         Optional<Account> accountOptional = accountRepository.findByUsername(username);
         if (accountOptional.isEmpty()) {
-            throw new AccountNotFoundException("Username notfound");
+            throw new AccountNotFoundException("Username not found");
         }
         Account account = accountOptional.get();
         if (account.getVerificationCode().equals(code)) {
