@@ -2,6 +2,7 @@ package com.springboot.architectural.service.imp;
 
 import com.springboot.architectural.dto.BillDto;
 import com.springboot.architectural.dto.BoardingHistoryDto;
+import com.springboot.architectural.dto.ChartDto;
 import com.springboot.architectural.dto.RegisDto;
 import com.springboot.architectural.entity.*;
 import com.springboot.architectural.mapper.BillMapper;
@@ -25,6 +26,8 @@ public class BillServiceImp implements BillService {
     private BillRepository billRepository;
     @Autowired
     private AccountRepository accountRepository;
+    @Autowired
+    private ChartRepository chartRepository;
     @Autowired
     private BoardingHistoryRepository boardingHistoryRepository;
 
@@ -107,6 +110,30 @@ public class BillServiceImp implements BillService {
         billCheck.get().setPay(true);
         billRepository.save(billCheck.get());
         return true;
+    }
+
+    @Override
+    public List<ChartDto> summaryStudent(Date from, Date to, String typeRoom) {
+        if (from == null) from = new Date();
+        if  (to == null) to = new Date();
+        List<ChartDto> summary = chartRepository.summaryStudent(from, to, typeRoom);
+        return summary;
+    }
+
+    @Override
+    public List<ChartDto> summaryBoardingPrice(Date from, Date to, String typeRoom) {
+        if (from == null) from = new Date();
+        if  (to == null) to = new Date();
+        List<ChartDto> summary = chartRepository.summaryBoardingPrice(from, to, typeRoom);
+        return summary;
+    }
+
+    @Override
+    public List<ChartDto> summaryElectricWaterPrice(Date from, Date to, String typeRoom) {
+        if (from == null) from = new Date();
+        if  (to == null) to = new Date();
+        List<ChartDto> summary = chartRepository.summaryElectricWaterPrice(from, to, typeRoom);
+        return summary;
     }
 
     @Override

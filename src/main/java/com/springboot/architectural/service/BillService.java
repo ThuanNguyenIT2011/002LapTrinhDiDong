@@ -1,6 +1,7 @@
 package com.springboot.architectural.service;
 
 import com.springboot.architectural.dto.BillDto;
+import com.springboot.architectural.dto.ChartDto;
 import com.springboot.architectural.dto.RegisDto;
 
 import java.util.Date;
@@ -17,6 +18,11 @@ public interface BillService {
     BillDto update(BillDto billDto);
     boolean delete(Integer id);
     boolean payBill(Integer id);
+    public List<ChartDto> summaryStudent(Date from, Date to, String typeRoom );
+
+    public List<ChartDto> summaryBoardingPrice(Date from, Date to, String typeRoom);
+
+    public List<ChartDto> summaryElectricWaterPrice(Date from, Date to, String typeRoom);
 
 
 }

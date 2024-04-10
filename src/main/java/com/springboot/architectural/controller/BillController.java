@@ -40,6 +40,28 @@ public class BillController {
         responseData.setDesc("Get all successfully");
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
+    @GetMapping("/get-summary-student")
+    public ResponseEntity<?> getSummaryStudent(@RequestParam  @DateTimeFormat(pattern="ddMMyyyy") Date from, @RequestParam   @DateTimeFormat(pattern="ddMMyyyy") Date to, @RequestParam(defaultValue = "") String typeRoom){
+        ResponseData responseData = new ResponseData();
+        responseData.setData(billService.summaryStudent(from, to, typeRoom));
+        responseData.setDesc("Get all successfully");
+        return new ResponseEntity<>(responseData.getData(), HttpStatus.OK);
+    }
+
+    @GetMapping("/get-summary-electric-water-price")
+    public ResponseEntity<?> getSummaryElectricWaterPrice(@RequestParam  @DateTimeFormat(pattern="ddMMyyyy") Date from, @RequestParam   @DateTimeFormat(pattern="ddMMyyyy") Date to, @RequestParam(defaultValue = "") String typeRoom){
+        ResponseData responseData = new ResponseData();
+        responseData.setData(billService.summaryElectricWaterPrice(from, to, typeRoom));
+        responseData.setDesc("Get all successfully");
+        return new ResponseEntity<>(responseData.getData(), HttpStatus.OK);
+    }
+    @GetMapping("/get-summary-boarding-price")
+    public ResponseEntity<?> getSummaryBoarding(@RequestParam  @DateTimeFormat(pattern="ddMMyyyy") Date from, @RequestParam   @DateTimeFormat(pattern="ddMMyyyy") Date to, @RequestParam(defaultValue = "") String typeRoom){
+        ResponseData responseData = new ResponseData();
+        responseData.setData(billService.summaryBoardingPrice(from, to, typeRoom));
+        responseData.setDesc("Get all successfully");
+        return new ResponseEntity<>(responseData.getData(), HttpStatus.OK);
+    }
     @GetMapping("/get-all-by-student")
     public ResponseEntity<?> getAllByStudentId(@RequestParam String studentId){
         ResponseData responseData = new ResponseData();
