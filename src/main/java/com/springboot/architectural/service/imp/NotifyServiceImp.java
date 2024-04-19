@@ -80,6 +80,24 @@ public class NotifyServiceImp implements NotifyService {
     }
 
     @Override
+    public boolean updateNotify(NotifyRequest notifyRequest) throws NotifyNotfoundException {
+        Optional<Notify> notifyOptional = notifyRepository.findById(notifyRequest.getId());
+
+        if (notifyOptional.isEmpty()) {
+            throw new NotifyNotfoundException("Notify not found");
+        }
+
+        Notify notifyDB = notifyOptional.get();
+
+        notifyDB.setContent(notifyRequest.getContent());
+        notifyDB.setTitle(notifyRequest.getTitle());
+
+        notifyRepository.save(notifyDB);
+
+        return true;
+    }
+
+    @Override
     public List<NotifyDto> getNotifyByUsername(String username) {
         Account account = new Account();
         account.setUsername(username);
