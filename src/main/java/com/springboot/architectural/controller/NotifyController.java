@@ -24,15 +24,21 @@ public class NotifyController {
         ResponseData responseData = new ResponseData();
         notifyService.saveNotify(notifyRequest);
         responseData.setData(true);
+        responseData.setStatus(HttpStatus.CREATED.value());
         responseData.setDesc("Create notify successfully");
-        return ResponseEntity.status(HttpStatus.OK).body(responseData);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseData);
     }
     @PutMapping("")
     public ResponseEntity<?> updateNotify(@RequestBody NotifyRequest notifyRequest) {
         ResponseData responseData = new ResponseData();
-        notifyService.saveNotify(notifyRequest);
-        responseData.setData(true);
-        responseData.setDesc("Update notify successfully");
+        try {
+           responseData.setData(notifyService.updateNotify(notifyRequest));
+           responseData.setDesc("Update notify successfully");
+        } catch (NotifyNotfoundException e) {
+            responseData.setDesc(e.getMessage());
+            responseData.setSuccess(false);
+        }
+
         return ResponseEntity.status(HttpStatus.OK).body(responseData);
     }
 
