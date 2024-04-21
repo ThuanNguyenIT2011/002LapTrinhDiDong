@@ -55,7 +55,7 @@ public class LoginServiceImp implements LoginService {
         roles.add(role);
 
         account.setRoles(roles);
-        account.setDisable(true);
+        account.setDisable(false);
         account.setUsername(signUpRequest.getUsername());
         account.setFirstName(signUpRequest.getFirstName());
         account.setLastName(signUpRequest.getLastName());
@@ -63,7 +63,7 @@ public class LoginServiceImp implements LoginService {
 
         account.setPassword(passwordEncode);
 
-        account.setVerificationCode(codeVerify);
+//        account.setVerificationCode(codeVerify);
 
         System.out.println(account.toString());
         try {
@@ -133,11 +133,11 @@ public class LoginServiceImp implements LoginService {
             throw new AccountNotFoundException("Username not found");
         }
         Account account = accountOptional.get();
-        if (account.getVerificationCode().equals(code)) {
-            // update disable
-            accountRepository.updateDisableAccount(username, false);
-            return true;
-        }
+//        if (account.getVerificationCode().equals(code)) {
+//            // update disable
+//            accountRepository.updateDisableAccount(username, false);
+//            return true;
+//        }
         return false;
     }
 }

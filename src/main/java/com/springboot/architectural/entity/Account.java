@@ -22,17 +22,17 @@ public class Account {
     private String password;
 
 //    @Column(nullable = false, length = 20)
-    @Column(name = "[first_name]")
+    @Column(name = "firstName")
     private String firstName;
 
 //    @Column(nullable = false, length = 20)
-    @Column(name = "last_name")
+    @Column(name = "lastName")
     private String lastName;
 
     private boolean disable = false;
 
-    @Column(name = "verification_code")
-    private String verificationCode;
+//    @Column(name = "verification_code")
+//    private String verificationCode;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
