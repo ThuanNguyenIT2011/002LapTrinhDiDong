@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -80,23 +81,49 @@ public class LoginServiceImp implements LoginService {
     @Override
     public boolean checkLogin(String userName, String password) {
 
-       Account  account = accountRepository.findByUsername(userName).get();
+       Optional<Account>  accountOptional = accountRepository.findByUsername(userName);
 
+       if (accountOptional.isEmpty())
+           return false;
+
+       Account account = accountOptional.get();
        return passwordEncoder.matches(password, account.getPassword()) && !account.isDisable();
     }
 
     @Override
     public String login(String userName, String password) {
 
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                userName, password
-        ));
+//        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+//                userName, password
+//        ));
+//
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+////         = new JwtTokenProvider();
+//        String token =  jwtTokenProvider.generateToken(authentication);
+//
+//        return token;
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-//         = new JwtTokenProvider();
-        String token =  jwtTokenProvider.generateToken(authentication);
+        try {
 
-        return token;
+            // Attempt to authenticate user
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    userName, password
+            ));
+
+            // Set authentication in SecurityContextHolder
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            // Generate JWT token
+            String token = jwtTokenProvider.generateToken(authentication);
+
+            // Return token
+            return token;
+        } catch (Exception e) {
+            // Handle authentication failure
+            // For example, log the error or perform any necessary cleanup
+            // Return null to indicate login failure
+            return null;
+        }
     }
 
     @Override
