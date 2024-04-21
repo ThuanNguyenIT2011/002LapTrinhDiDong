@@ -58,8 +58,8 @@ public class LoginServiceImp implements LoginService {
         account.setRoles(roles);
         account.setDisable(false);
         account.setUsername(signUpRequest.getUsername());
-        account.setFirstName(signUpRequest.getFirstName());
-        account.setLastName(signUpRequest.getLastName());
+        account.setFirstName("");
+        account.setLastName("");
         String passwordEncode = passwordEncoder.encode(signUpRequest.getPassword());
 
         account.setPassword(passwordEncode);
@@ -69,9 +69,9 @@ public class LoginServiceImp implements LoginService {
         System.out.println(account.toString());
         try {
             accountRepository.save(account);
-            String bodyMail = "Code: " + codeVerify;
-            emailSenderService.sendSimpleEmail(signUpRequest.getUsername()+ "@student.ptithcm.edu.vn",
-                    "verification_code", bodyMail);
+//            String bodyMail = "Code: " + codeVerify;
+//            emailSenderService.sendSimpleEmail(signUpRequest.getUsername()+ "@student.ptithcm.edu.vn",
+//                    "verification_code", bodyMail);
             return true;
         } catch (Exception ex) {
             System.out.println(ex.getMessage());

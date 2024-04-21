@@ -5,6 +5,7 @@ import com.springboot.architectural.payload.Request.SignUpRequest;
 import com.springboot.architectural.payload.ResponseData;
 import com.springboot.architectural.service.LoginService;
 import com.springboot.architectural.service.imp.EmailSenderService;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class LoginController {
     private EmailSenderService emailSenderService;
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody SignUpRequest signUpRequest){
+    public ResponseEntity<?> signup(@RequestBody @NonNull SignUpRequest signUpRequest){
         ResponseData responseData = new ResponseData();
         responseData.setData(loginService.addUser(signUpRequest));
 
@@ -42,6 +43,8 @@ public class LoginController {
         } else {
             responseData.setData("");
             responseData.setSuccess(false);
+            responseData.setStatus(401);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseData);
         }
 
         return new ResponseEntity<>(responseData, HttpStatus.OK);
@@ -58,6 +61,7 @@ public class LoginController {
         } catch (AccountNotFoundException e) {
             responseData.setData(e.getMessage());
             responseData.setSuccess(false);
+
         }
 
         return new ResponseEntity<>(responseData, HttpStatus.OK);
