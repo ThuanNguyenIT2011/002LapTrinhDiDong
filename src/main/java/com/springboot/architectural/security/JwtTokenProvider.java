@@ -1,6 +1,6 @@
 package com.springboot.architectural.security;
 
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -56,11 +56,27 @@ public class JwtTokenProvider {
 
     // validate JWT token
     public boolean validateToken(String token){
-        Jwts.parser()
-                .verifyWith((SecretKey) key())
-                .build()
-                .parse(token);
-        return true;
+        try {
+            Jwts.parser()
+                    .verifyWith((SecretKey) key())
+                    .build()
+                    .parse(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+        /*
+        * catch (MalformedJwtException e) {
+            System.out.println("Invalid JWT token: " + e.getMessage());
+
+        } catch (ExpiredJwtException e) {
+            System.out.println("JWT token is expired: " + e.getMessage());
+        } catch (UnsupportedJwtException e) {
+            System.out.println("JWT token is unsupported: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            System.out.println("JWT claims string is empty: " + e.getMessage());
+        }*/
 
     }
+
 }

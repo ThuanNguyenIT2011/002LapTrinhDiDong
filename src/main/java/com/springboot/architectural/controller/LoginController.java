@@ -33,10 +33,10 @@ public class LoginController {
     public ResponseEntity<?> signin(@RequestParam(name = "username") String username,
                                     @RequestParam(name = "password") String password) {
         ResponseData responseData = new ResponseData();
-
         if(loginService.checkLogin(username, password)) {
             String token = loginService.login(username, password);
             responseData.setData(token);
+
         } else {
             responseData.setData("");
             responseData.setSuccess(false);

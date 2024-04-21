@@ -1,5 +1,7 @@
 package com.springboot.architectural.security;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.springboot.architectural.payload.ResponseData;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,6 +16,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -36,6 +39,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // Get JWT token from HTTP request
         String token = getTokenFromRequest(request);
+        System.out.println(jwtTokenProvider.validateToken(token));
 
         // Validate Token
         if(StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)){
@@ -58,6 +62,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
+
+
 
     private String getTokenFromRequest(HttpServletRequest request){
         String bearerToken = request.getHeader("Authorization");
