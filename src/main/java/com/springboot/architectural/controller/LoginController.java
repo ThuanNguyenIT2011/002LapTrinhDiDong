@@ -1,5 +1,6 @@
 package com.springboot.architectural.controller;
 
+import com.springboot.architectural.dto.AccountInfoDto;
 import com.springboot.architectural.payload.Request.SignUpRequest;
 import com.springboot.architectural.payload.ResponseData;
 import com.springboot.architectural.service.LoginService;
@@ -33,10 +34,11 @@ public class LoginController {
     public ResponseEntity<?> signin(@RequestParam(name = "username") String username,
                                     @RequestParam(name = "password") String password) {
         ResponseData responseData = new ResponseData();
-        if(loginService.checkLogin(username, password)) {
+        AccountInfoDto accountInfoDto =loginService.checkLogin(username, password);
+        if(accountInfoDto != null) {
             String token = loginService.login(username, password);
-            responseData.setData(token);
-
+            accountInfoDto.setToken(token);
+            responseData.setData(accountInfoDto);
         } else {
             responseData.setData("");
             responseData.setSuccess(false);

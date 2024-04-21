@@ -1,5 +1,6 @@
 package com.springboot.architectural.service.imp;
 
+import com.springboot.architectural.dto.AccountInfoDto;
 import com.springboot.architectural.entity.Account;
 import com.springboot.architectural.entity.Role;
 import com.springboot.architectural.payload.Request.SignUpRequest;
@@ -79,15 +80,30 @@ public class LoginServiceImp implements LoginService {
     }
 
     @Override
-    public boolean checkLogin(String userName, String password) {
+    public AccountInfoDto checkLogin(String userName, String password) {
 
        Optional<Account>  accountOptional = accountRepository.findByUsername(userName);
 
        if (accountOptional.isEmpty())
-           return false;
+           return null;
 
        Account account = accountOptional.get();
-       return passwordEncoder.matches(password, account.getPassword()) && !account.isDisable();
+
+       if (passwordEncoder.matches(password, account.getPassword()) && !account.isDisable()) {
+           AccountInfoDto accountInfoDto = new AccountInfoDto();
+           accountInfoDto.setUsername(account.getUsername());
+           accountInfoDto.setLastName(account.getLastName());
+           accountInfoDto.setFirstName(account.getFirstName());
+           if (! account.getRoles().isEmpty()) {
+               accountInfoDto.setRole(account.getRoles().stream().findFirst().get().getName());
+           } else {
+               accountInfoDto.setRole("");
+           }
+
+           return accountInfoDto;
+       }
+
+       return null;
     }
 
     @Override
