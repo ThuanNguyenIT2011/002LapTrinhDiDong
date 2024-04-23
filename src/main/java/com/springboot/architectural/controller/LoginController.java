@@ -1,6 +1,7 @@
 package com.springboot.architectural.controller;
 
 import com.springboot.architectural.dto.AccountInfoDto;
+import com.springboot.architectural.exception.UsernameIsExistException;
 import com.springboot.architectural.payload.Request.SignUpRequest;
 import com.springboot.architectural.payload.ResponseData;
 import com.springboot.architectural.service.LoginService;
@@ -25,7 +26,12 @@ public class LoginController {
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody @NonNull SignUpRequest signUpRequest){
         ResponseData responseData = new ResponseData();
-        responseData.setData(loginService.addUser(signUpRequest));
+        try {
+            responseData.setData(loginService.addUser(signUpRequest));
+        } catch (UsernameIsExistException e) {
+           responseData.setSuccess(false);
+           responseData.setDesc(e.getMessage());
+        }
 
 
         return new ResponseEntity<>(responseData, HttpStatus.OK);
