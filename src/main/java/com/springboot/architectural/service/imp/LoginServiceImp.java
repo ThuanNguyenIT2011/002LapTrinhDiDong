@@ -3,6 +3,7 @@ package com.springboot.architectural.service.imp;
 import com.springboot.architectural.dto.AccountInfoDto;
 import com.springboot.architectural.entity.Account;
 import com.springboot.architectural.entity.Role;
+import com.springboot.architectural.exception.UsernameIsExistException;
 import com.springboot.architectural.payload.Request.SignUpRequest;
 import com.springboot.architectural.repository.AccountRepository;
 import com.springboot.architectural.security.JwtTokenProvider;
@@ -45,7 +46,13 @@ public class LoginServiceImp implements LoginService {
     private  EmailSenderService emailSenderService;
 
     @Override
-    public boolean addUser(SignUpRequest signUpRequest) {
+    public boolean addUser(SignUpRequest signUpRequest) throws UsernameIsExistException {
+        Optional<Account> accountOptional = accountRepository.findByUsername(signUpRequest.getUsername());
+        if (!accountOptional.isEmpty()) {
+            throw new UsernameIsExistException("Username is exist");
+        }
+
+
         Account account = new Account();
         Role role = roleService.getRoleByName(signUpRequest.getNameRole());
 
