@@ -107,6 +107,22 @@ public class LoginServiceImp implements LoginService {
     }
 
     @Override
+    public boolean checkForget(String userName, String role) {
+        Optional<Account>  accountOptional = accountRepository.findByUsername(userName);
+        if (accountOptional.isEmpty())
+            return false;
+        Account account = accountOptional.get();
+        String getRole = account.getRoles().stream().findFirst().get().getName();
+        if (!getRole.equals(role)){
+
+            System.out.println("role" + role + " "+ getRole);
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
     public String login(String userName, String password) {
 
 //        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -140,6 +156,21 @@ public class LoginServiceImp implements LoginService {
             // Return null to indicate login failure
             return null;
         }
+    }
+
+    @Override
+    public boolean updatePassword(String userName, String password) {
+        Optional<Account>  accountOptional = accountRepository.findByUsername(userName);
+
+        if (accountOptional.isEmpty())
+            return false;
+
+        Account account = accountOptional.get();
+        String passwordEncode = passwordEncoder.encode(password);
+
+        account.setPassword(passwordEncode);
+        accountRepository.save(account);
+        return true;
     }
 
     @Override
