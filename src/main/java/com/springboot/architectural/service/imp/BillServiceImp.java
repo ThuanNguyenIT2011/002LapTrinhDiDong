@@ -94,7 +94,6 @@ public class BillServiceImp implements BillService {
             Integer price = uE * mE + uW + mW;
             entity.setPrice(price);
             entity.setElectricWaterPrice(electricWaterPrice.get());
-
         }
         Optional<Account> account = accountRepository.findById(billDto.getAcceptBy());
         if (account.isEmpty()) return null;

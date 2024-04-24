@@ -41,7 +41,12 @@ public class LoginController {
     public ResponseEntity<?> signin(@RequestParam(name = "username") String username,
                                     @RequestParam(name = "password") String password) {
         ResponseData responseData = new ResponseData();
+
+        System.out.println(username);
+        System.out.println(password);
+
         AccountInfoDto accountInfoDto =loginService.checkLogin(username, password);
+
         if(accountInfoDto != null) {
             String token = loginService.login(username, password);
             accountInfoDto.setToken(token);

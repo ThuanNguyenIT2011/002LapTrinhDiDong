@@ -22,11 +22,11 @@ public class Account {
     private String password;
 
 //    @Column(nullable = false, length = 20)
-    @Column(name = "firstName")
+    @Column(name = "first_name")
     private String firstName;
 
 //    @Column(nullable = false, length = 20)
-    @Column(name = "lastName")
+    @Column(name = "last_name")
     private String lastName;
 
     private boolean disable = false;
