@@ -67,6 +67,7 @@ public class LoginServiceImp implements LoginService {
         account.setUsername(signUpRequest.getUsername());
         account.setFirstName("");
         account.setLastName("");
+        account.setAvatar("");
         String passwordEncode = passwordEncoder.encode(signUpRequest.getPassword());
 
         account.setPassword(passwordEncode);
@@ -101,6 +102,7 @@ public class LoginServiceImp implements LoginService {
            accountInfoDto.setUsername(account.getUsername());
            accountInfoDto.setLastName(account.getLastName());
            accountInfoDto.setFirstName(account.getFirstName());
+           accountInfoDto.setAvatar(account.getAvatar());
            if (! account.getRoles().isEmpty()) {
                accountInfoDto.setRole(account.getRoles().stream().findFirst().get().getName());
            } else {
@@ -111,6 +113,22 @@ public class LoginServiceImp implements LoginService {
        }
 
        return null;
+    }
+
+    @Override
+    public boolean checkForget(String userName, String role) {
+        Optional<Account>  accountOptional = accountRepository.findByUsername(userName);
+        if (accountOptional.isEmpty())
+            return false;
+        Account account = accountOptional.get();
+        String getRole = account.getRoles().stream().findFirst().get().getName();
+        if (!getRole.equals(role)){
+
+            System.out.println("role" + role + " "+ getRole);
+            return false;
+        }
+
+        return true;
     }
 
     @Override
@@ -147,6 +165,21 @@ public class LoginServiceImp implements LoginService {
             // Return null to indicate login failure
             return null;
         }
+    }
+
+    @Override
+    public boolean updatePassword(String userName, String password) {
+        Optional<Account>  accountOptional = accountRepository.findByUsername(userName);
+
+        if (accountOptional.isEmpty())
+            return false;
+
+        Account account = accountOptional.get();
+        String passwordEncode = passwordEncoder.encode(password);
+
+        account.setPassword(passwordEncode);
+        accountRepository.save(account);
+        return true;
     }
 
     @Override
