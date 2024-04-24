@@ -57,6 +57,7 @@ public class RoomServiceImp implements RoomService {
     public RoomDto addRoom(RoomDto room) {
         Room roomEntity = RoomMapper.INSTANCE.roomDtotoRoom(room);
         roomEntity.setAccount(accountRepository.findByUsername(room.getCreateBy()).get());
+
         return  RoomMapper.INSTANCE.roomToRoomDto(roomRepository.save(roomEntity));
     }
 
