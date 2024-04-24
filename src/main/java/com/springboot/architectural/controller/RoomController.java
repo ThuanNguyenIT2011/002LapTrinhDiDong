@@ -92,6 +92,14 @@ public class RoomController {
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 
+    @GetMapping("/get-all-res")
+    public ResponseEntity<?> getAllRoomRegister(@RequestParam(defaultValue = "") String status,
+                                                @RequestParam(defaultValue = "") String searchContent,
+                                                @RequestParam(defaultValue = "") String type){
 
+        ResponseData responseData = new ResponseData();
+        responseData.setData(roomService.getAllRoomForRegister(status, searchContent, type));
+        return new ResponseEntity<>(responseData, HttpStatus.OK);
+    }
 
 }

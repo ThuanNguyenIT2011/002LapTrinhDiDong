@@ -1,11 +1,12 @@
 package com.springboot.architectural.service.imp;
 
-import com.springboot.architectural.entity.Account;
-import com.springboot.architectural.entity.Item;
-import com.springboot.architectural.entity.Room;
+import com.springboot.architectural.dto.RoomDtoRegis;
+import com.springboot.architectural.entity.*;
+import com.springboot.architectural.mapper.RoomDtoRegisMapper;
 import com.springboot.architectural.mapper.RoomMapper;
 import com.springboot.architectural.dto.RoomDto;
 import com.springboot.architectural.repository.AccountRepository;
+import com.springboot.architectural.repository.RegisRepository;
 import com.springboot.architectural.repository.RoomRepository;
 import com.springboot.architectural.service.FileService;
 import com.springboot.architectural.service.RoomService;
@@ -15,7 +16,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,6 +33,10 @@ public class RoomServiceImp implements RoomService {
     private AccountRepository accountRepository;
     @Autowired
     private FileService fileService;
+
+    @Autowired
+    private RegisRepository regisRepository;
+
     @Override
     public RoomDto getRoomById(int id) {
         Optional<Room> room = roomRepository.findById(id);
@@ -90,5 +97,65 @@ public class RoomServiceImp implements RoomService {
         room.get().setImg(url);
         roomRepository.save(room.get());
         return fileService.save(multipartFile);
+    }
+
+    @Override
+    public List<RoomDtoRegis> getAllRoomForRegister(String status, String searchContent, String type) {
+        // Get info register
+        //Date date = new Date();
+        LocalDate localDate = LocalDate.now();
+        List<Regis> regisList = regisRepository.findEntitiesByDateRange(localDate);
+        List<Room> rooms = new ArrayList<>();
+        List<RoomDtoRegis> roomDtoRegis = new ArrayList<>();
+
+        if (regisList.size() > 0) {
+            Regis regis = regisList.get(0);
+            List<Integer> roomIdList = new ArrayList<>();
+
+            regis.getRoomRegis().forEach(roomRegis -> {
+                roomIdList.add(roomRegis.getRoom().getId());
+                System.out.println(roomRegis.getRoom().getId());
+            });
+
+            //List<Room> rooms = roomRepository.findRangeId(roomIdList);
+
+            if (status.length() == 0) {
+                rooms = roomRepository.filterRoomBySearchAndType(type, searchContent, roomIdList);
+            } else {
+                boolean enable = status.equals("true") ? true : false;
+                rooms = roomRepository.filterRoomByStatusAndSearchAndType(searchContent, enable, type, roomIdList);
+            }
+
+            List<RoomDto> roomDtos = new ArrayList<>();
+
+            rooms.forEach(room -> {
+                RoomDtoRegis toRoomDtoRegis = RoomDtoRegisMapper.mappToRoomDtoRegis(room);
+                int count = 0;
+                double priceElectric = 0;
+                double priceWater = 0;
+
+                for (RoomRegis roomRegis : regis.getRoomRegis()) {
+                    if (roomRegis.getRoom().getId() == room.getId()) {
+                        count = roomRegis.getCount();
+                        break;
+                    }
+                }
+
+                toRoomDtoRegis.setCount(count);
+                toRoomDtoRegis.setPrice(regis.getRoomPriceVND());
+
+
+                roomDtoRegis.add(toRoomDtoRegis);
+            });
+        }
+
+        return roomDtoRegis;
+    }
+
+    @Override
+    public RoomDtoRegis getRoomByIdByRegister(Integer id) {
+        Optional<Room> room = roomRepository.findById(id);
+        if (!room.isPresent()) return  null;
+        return RoomDtoRegisMapper.mappToRoomDtoRegis(room.get());
     }
 }
