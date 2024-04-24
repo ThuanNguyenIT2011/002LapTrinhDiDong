@@ -60,6 +60,7 @@ public class LoginServiceImp implements LoginService {
         account.setUsername(signUpRequest.getUsername());
         account.setFirstName("");
         account.setLastName("");
+        account.setAvatar("");
         String passwordEncode = passwordEncoder.encode(signUpRequest.getPassword());
 
         account.setPassword(passwordEncode);
@@ -94,6 +95,7 @@ public class LoginServiceImp implements LoginService {
            accountInfoDto.setUsername(account.getUsername());
            accountInfoDto.setLastName(account.getLastName());
            accountInfoDto.setFirstName(account.getFirstName());
+           accountInfoDto.setAvatar(account.getAvatar());
            if (! account.getRoles().isEmpty()) {
                accountInfoDto.setRole(account.getRoles().stream().findFirst().get().getName());
            } else {

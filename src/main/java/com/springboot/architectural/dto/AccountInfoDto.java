@@ -14,4 +14,5 @@ public class AccountInfoDto {
     private boolean disable;
     private String role;
     private String token;
+    private String avatar;
 }

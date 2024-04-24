@@ -49,7 +49,8 @@ public class Account {
     
     @OneToMany(mappedBy = "account")
     private Set<Regis> regis = new HashSet<>();
-
+    @Column(name = "avatar")
+    private String avatar;
   
     public static AccountDto copyAccount(Account account) {
         AccountDto accountNew = new AccountDto();
