@@ -62,7 +62,7 @@ public class LoginController {
             boolean isVerify = loginService.verifyCode(code, username);
             responseData.setData(isVerify);
         } catch (AccountNotFoundException e) {
-            responseData.setData(e.getMessage());
+            responseData.setDesc(e.getMessage());
             responseData.setSuccess(false);
         }
 
