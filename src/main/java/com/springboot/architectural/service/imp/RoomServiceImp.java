@@ -154,8 +154,20 @@ public class RoomServiceImp implements RoomService {
 
     @Override
     public RoomDtoRegis getRoomByIdByRegister(Integer id) {
-        Optional<Room> room = roomRepository.findById(id);
-        if (!room.isPresent()) return  null;
-        return RoomDtoRegisMapper.mappToRoomDtoRegis(room.get());
+        LocalDate localDate = LocalDate.now();
+        List<Regis> regisList = regisRepository.findEntitiesByDateRange(localDate);
+        if (regisList.size() > 0) {
+            Regis regis = regisList.get(0);
+            for (RoomRegis roomRegis : regis.getRoomRegis()) {
+                if (roomRegis.getRoom().getId() == id) {
+                    int count = 0;
+                    RoomDtoRegis toRoomDtoRegis = RoomDtoRegisMapper.mappToRoomDtoRegis(roomRegis.getRoom());
+                    toRoomDtoRegis.setCount(roomRegis.getCount());
+                    toRoomDtoRegis.setPrice(regis.getRoomPriceVND());
+                    return toRoomDtoRegis;
+                }
+            }
+        }
+        return null;
     }
 }

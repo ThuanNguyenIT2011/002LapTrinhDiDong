@@ -2,6 +2,7 @@ package com.springboot.architectural.controller;
 
 import com.springboot.architectural.dto.BillDto;
 import com.springboot.architectural.dto.BoardingHistoryDto;
+import com.springboot.architectural.payload.Request.OrderRequest;
 import com.springboot.architectural.payload.ResponseData;
 import com.springboot.architectural.service.BillService;
 import com.springboot.architectural.service.BoardingHistoryService;
@@ -77,6 +78,23 @@ public class BoardingHistoryController {
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 
+    @GetMapping("/check-register")
+    public ResponseEntity<?> checkUserIdRegistered(@RequestParam(name = "username") String username) {
+        ResponseData responseData = new ResponseData();
+
+        responseData.setData(boardingHistoryService.checkUserIdRegistered(username));
+
+        return new ResponseEntity<>(responseData, HttpStatus.OK);
+    }
+
+    @PostMapping("/regis-room")
+    public ResponseEntity<?> createRegister(@RequestBody OrderRequest orderRequest) {
+        ResponseData responseData = new ResponseData();
+
+        responseData.setData(boardingHistoryService.createRegister(orderRequest));
+
+        return new ResponseEntity<>(responseData, HttpStatus.OK);
+    }
 
 
 }

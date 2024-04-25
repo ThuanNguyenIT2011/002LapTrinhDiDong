@@ -2,21 +2,18 @@ package com.springboot.architectural.service.imp;
 
 import com.springboot.architectural.dto.BoardingHistoryDto;
 import com.springboot.architectural.dto.ElectricWaterPriceDto;
-import com.springboot.architectural.entity.Account;
-import com.springboot.architectural.entity.BoardingHistory;
-import com.springboot.architectural.entity.ElectricWaterPrice;
-import com.springboot.architectural.entity.RoomRegis;
+import com.springboot.architectural.entity.*;
 import com.springboot.architectural.mapper.BoardingHistoryMapper;
 import com.springboot.architectural.mapper.ElectricWaterPriceMapper;
-import com.springboot.architectural.repository.AccountRepository;
-import com.springboot.architectural.repository.BoardingHistoryRepository;
-import com.springboot.architectural.repository.ElectricWaterPriceRepository;
-import com.springboot.architectural.repository.RoomRegisRepository;
+import com.springboot.architectural.payload.Request.OrderRequest;
+import com.springboot.architectural.repository.*;
 import com.springboot.architectural.service.BoardingHistoryService;
 import com.springboot.architectural.service.ElectricWaterPriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,6 +26,9 @@ public class BoardingHistoryServiceImp implements BoardingHistoryService {
     private AccountRepository accountRepository;
     @Autowired
     private RoomRegisRepository roomRegisRepository;
+
+    @Autowired
+    private RegisRepository regisRepository;
 
     @Override
     public BoardingHistoryDto getById(int id) {
@@ -73,6 +73,47 @@ public class BoardingHistoryServiceImp implements BoardingHistoryService {
             boardingHistoryRepository.delete(r.get());
             return true;
         }
+        return false;
+    }
+
+    @Override
+    public boolean checkUserIdRegistered(String username) {
+        LocalDate localDate = LocalDate.now();
+        List<Regis> regisList = regisRepository.findEntitiesByDateRange(localDate);
+        if (regisList.size() > 0) {
+            Regis regis = regisList.get(regisList.size() - 1);
+            List<BoardingHistory> boardingHistoryList = boardingHistoryRepository.findEntitiesByDateRange(regis.getStartRegisAt(),
+                    regis.getEndRegisAt(), new Account(username));
+
+            return  boardingHistoryList.size() > 0;
+        }
+
+
+        return true;
+    }
+
+    @Override
+    public boolean createRegister(OrderRequest orderRequest) {
+        LocalDate localDate = LocalDate.now();
+        List<Regis> regisList = regisRepository.findEntitiesByDateRange(localDate);
+        if (regisList.size() > 0) {
+            Regis regis = regisList.get(0);
+            for (RoomRegis roomRegis : regis.getRoomRegis()) {
+                if (roomRegis.getRoom().getId() == orderRequest.getIdRoom()) {
+                    BoardingHistory boardingHistory = new BoardingHistory();
+                    boardingHistory.setCreated(new Date());
+                    boardingHistory.setAccount(new Account(orderRequest.getUsername()));
+                    boardingHistory.setDisable(false);
+                    boardingHistory.setRoomRegis(roomRegis);
+
+                    boardingHistoryRepository.save(boardingHistory);
+
+                    return true;
+                }
+            }
+        }
+
+
         return false;
     }
 
