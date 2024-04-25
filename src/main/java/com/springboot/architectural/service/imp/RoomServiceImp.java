@@ -142,7 +142,7 @@ public class RoomServiceImp implements RoomService {
                 }
 
                 toRoomDtoRegis.setCount(count);
-                toRoomDtoRegis.setPrice(regis.getRoomPriceVND());
+                toRoomDtoRegis.setPrice(Double.parseDouble(regis.getRoomPriceVND().toString()));
 
 
                 roomDtoRegis.add(toRoomDtoRegis);
@@ -163,7 +163,7 @@ public class RoomServiceImp implements RoomService {
                     int count = 0;
                     RoomDtoRegis toRoomDtoRegis = RoomDtoRegisMapper.mappToRoomDtoRegis(roomRegis.getRoom());
                     toRoomDtoRegis.setCount(roomRegis.getCount());
-                    toRoomDtoRegis.setPrice(regis.getRoomPriceVND());
+                    toRoomDtoRegis.setPrice(Double.parseDouble(regis.getRoomPriceVND().toString()));
                     return toRoomDtoRegis;
                 }
             }
