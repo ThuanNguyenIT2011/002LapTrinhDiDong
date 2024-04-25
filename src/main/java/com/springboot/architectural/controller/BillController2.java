@@ -65,7 +65,6 @@ public class BillController2 {
         } catch (Exception e) {
             System.out.println("\n\n\n\n" + e.getMessage() + "\n\n\n\n");
         }
-       
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 
