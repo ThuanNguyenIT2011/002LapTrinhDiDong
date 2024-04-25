@@ -101,5 +101,10 @@ public class RoomController {
         responseData.setData(roomService.getAllRoomForRegister(status, searchContent, type));
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
-
+    @GetMapping("/get-room-regis/{id}")
+    public ResponseEntity<?> getRoomRegis(@PathVariable(name = "id")Integer id) {
+        ResponseData responseData = new ResponseData();
+        responseData.setData(roomService.getRoomByIdByRegister(id));
+        return new ResponseEntity<>(responseData, HttpStatus.OK);
+    }
 }

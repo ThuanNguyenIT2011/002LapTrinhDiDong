@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "BoardingHistory")
 @Data
@@ -23,5 +25,6 @@ public class BoardingHistory {
     private RoomRegis roomRegis;
     private Boolean disable;
 
+    private Date created;
 
 }
