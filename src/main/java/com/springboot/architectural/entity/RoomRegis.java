@@ -25,5 +25,5 @@ public class RoomRegis  {
     @JoinColumn(name = "regis_id", nullable = false)
     private Regis regis;
 
-    private int count;
+    private Integer count;
 }

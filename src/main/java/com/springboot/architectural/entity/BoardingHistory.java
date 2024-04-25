@@ -24,7 +24,7 @@ public class BoardingHistory {
     @JoinColumn(name = "room_regis_id")
     private RoomRegis roomRegis;
     private Boolean disable;
-
+    
     private Date created;
 
 }

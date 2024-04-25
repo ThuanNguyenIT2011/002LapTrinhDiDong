@@ -20,8 +20,8 @@ public class RoomDtoRegis {
     private Boolean disable;
     private String img;
     private String type;
-    private int count;
-    private double price;
+    private Integer count;
+    private Double price;
 //    private double priceElectric;
 //    private double priceWater;
 
