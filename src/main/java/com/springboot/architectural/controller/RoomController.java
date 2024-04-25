@@ -35,6 +35,7 @@ public class RoomController {
                                         @RequestParam(defaultValue = "") String typeRoom,
                                         @RequestParam(defaultValue = "DESC") String typeSort,
                                         @RequestParam(defaultValue = "") String searchContent){
+
         ResponseData responseData = new ResponseData();
         responseData.setData(roomService.getAllRoom(searchContent,typeRoom, disable, typeSort));
         return new ResponseEntity<>(responseData, HttpStatus.OK);
@@ -91,6 +92,19 @@ public class RoomController {
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 
+    @GetMapping("/get-all-res")
+    public ResponseEntity<?> getAllRoomRegister(@RequestParam(defaultValue = "") String status,
+                                                @RequestParam(defaultValue = "") String searchContent,
+                                                @RequestParam(defaultValue = "") String type){
 
-
+        ResponseData responseData = new ResponseData();
+        responseData.setData(roomService.getAllRoomForRegister(status, searchContent, type));
+        return new ResponseEntity<>(responseData, HttpStatus.OK);
+    }
+    @GetMapping("/get-room-regis/{id}")
+    public ResponseEntity<?> getRoomRegis(@PathVariable(name = "id")Integer id) {
+        ResponseData responseData = new ResponseData();
+        responseData.setData(roomService.getRoomByIdByRegister(id));
+        return new ResponseEntity<>(responseData, HttpStatus.OK);
+    }
 }

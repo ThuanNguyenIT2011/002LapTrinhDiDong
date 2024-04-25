@@ -60,6 +60,41 @@ public class LoginController {
 
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
+    @GetMapping("/forget")
+    public ResponseEntity<?> forget(@RequestParam(name = "username") String username,
+                                    @RequestParam(name = "role") String role) {
+        ResponseData responseData = new ResponseData();
+        boolean checkForget =loginService.checkForget(username, role);
+        if(checkForget) {
+            responseData.setData("");
+            responseData.setSuccess(true);
+        } else {
+            responseData.setData("");
+            responseData.setSuccess(false);
+            responseData.setStatus(401);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseData);
+        }
+
+        return new ResponseEntity<>(responseData, HttpStatus.OK);
+    }
+    @PutMapping("/updatePassword")
+    public ResponseEntity<?> updatePassword(@RequestParam(name = "username") String username,
+                                            @RequestParam(name = "password") String password
+    ) {
+        ResponseData responseData = new ResponseData();
+        boolean checkForget =loginService.updatePassword(username, password);
+        if(checkForget) {
+            responseData.setData("");
+            responseData.setSuccess(true);
+        } else {
+            responseData.setData("");
+            responseData.setSuccess(false);
+            responseData.setStatus(401);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseData);
+        }
+
+        return new ResponseEntity<>(responseData, HttpStatus.OK);
+    }
 
     @GetMapping("/verify")
     public ResponseEntity<?> verifyCode(@RequestParam(name = "username") String username,
@@ -77,4 +112,5 @@ public class LoginController {
 
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
+
 }

@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,7 +33,14 @@ public class NotifyServiceImp implements NotifyService {
         Notify notify = new Notify();
         notify = NotifyRequestMapper.mappToNotify(notifyRequest, notify);
         if (notify.getId() == null) {
-            notify.setCreateAt(new Date());
+            Date date = new Date();
+
+            // Định dạng SimpleDateFormat
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+            // Chuyển đổi Date sang chuỗi
+            String formattedDate = sdf.format(date);
+            notify.setCreateAt(formattedDate);
         }
         notifyRepository.save(notify);
     }

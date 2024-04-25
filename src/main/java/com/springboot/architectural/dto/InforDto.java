@@ -4,15 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class AccountInfoDto {
-    private String username;
+public class InforDto {
     private String firstName;
     private String lastName;
-    private boolean disable;
-    private String role;
-    private String token;
-    private String avatar;
 }

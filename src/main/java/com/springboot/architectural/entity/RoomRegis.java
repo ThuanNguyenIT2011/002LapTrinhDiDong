@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -22,4 +24,6 @@ public class RoomRegis  {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "regis_id", nullable = false)
     private Regis regis;
+
+    private int count;
 }
