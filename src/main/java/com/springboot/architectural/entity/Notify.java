@@ -20,7 +20,7 @@ public class Notify {
     private String title;
 
     @Column(name = "create_at",updatable = false)
-    private Date createAt;
+    private String createAt;
 
     @Column(nullable = false, length = Integer.MAX_VALUE)
     private String content;

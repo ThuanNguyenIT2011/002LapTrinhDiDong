@@ -14,6 +14,6 @@ public class NotifyDto {
     private Integer id;
     private String title;
     private String content;
-    private Date created;
+    private String created;
     private AccountDto account;
 }
